@@ -22,8 +22,15 @@ export class LoginPage implements OnInit {
   onSubmitLogin() {
     const usuario = new User(null, this.email, this.password);
 
-    this.authService.login(usuario, true).subscribe(correcto => this.router.navigate(['/home']));
-
+    this.authService.login(usuario, true)
+    .subscribe( resp => {
+      if (resp.ok) {
+        this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
+        this.router.navigate(['/home']);
+      } 
+    }, error =>{
+       console.log( error);
+    });
   }
 
 }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../servicios/auth.service';
 import { ChatsService, chat } from '../servicios/chats.service';
 import { ModalController } from '@ionic/angular';
-import { ChatComponent } from '../componentes/chat/chat.component';
+import { ArticleComponent } from '../componentes/article/article.component';
+import { ArticlesService } from '../servicios/articles.service';
 import { ActionSheetController } from '@ionic/angular';
 
 
@@ -14,10 +15,12 @@ import { ActionSheetController } from '@ionic/angular';
 export class HomePage implements OnInit {
 
   public chatRooms: any = [];
+  public articles: any = [];
 
   constructor(
     public authservice: AuthService,
     public chatservice: ChatsService,
+    public articleservice: ArticlesService,
     public actionSheetController: ActionSheetController,
     private modal: ModalController) { }
 
@@ -26,16 +29,21 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.chatservice.getChatRooms().subscribe(chats => {
-      this.chatRooms = chats;
+    this.articleservice.getArticles().subscribe( data => {
+      this.articles = data;
+      console.log('data: ',data);
     });
+    /* this.chatservice.getChatRooms().subscribe(chats => {
+      this.chatRooms = chats;
+    }); */
   }
 
-  openChat(chat) {
+  openArticle(art) {
+    console.log(art._id);
     this.modal.create({
-      component: ChatComponent,
+      component: ArticleComponent,
       componentProps: {
-        chat: chat
+        art: art._id
       }
     }).then((modal) => modal.present())
   }
