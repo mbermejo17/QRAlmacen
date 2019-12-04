@@ -1,27 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../servicios/auth.service";
-import { Router } from "@angular/router";
+import { AuthService } from '../../servicios/auth.service';
+import { Router } from '@angular/router';
+import { User } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-
   email: string;
   password: string;
 
-  constructor(private authService: AuthService, public router: Router) { }
+  constructor(
+    private authService: AuthService,
+    public router: Router
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  onSubmitLogin()
-  {
-    this.authService.login(this.email, this.password).then( res =>{
-      this.router.navigate(['/home']);
-    }).catch(err => alert('los datos son incorrectos o no existe el usuario'))
+  onSubmitLogin() {
+    const usuario = new User(null, this.email, this.password);
+
+    this.authService.login(usuario, true).subscribe(correcto => this.router.navigate(['/home']));
+
   }
 
 }
