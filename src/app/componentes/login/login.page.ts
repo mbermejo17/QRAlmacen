@@ -21,12 +21,12 @@ export class LoginPage implements OnInit {
 
   onSubmitLogin() {
     const usuario = new User(null, this.email, this.password);
-
+    var self = this;
     this.authService.login(usuario, true)
     .subscribe( resp => {
       if (resp.ok) {
         this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
-        this.router.navigate(['/home']);
+        self.router.navigate(['/home']);
       } 
     }, error =>{
        console.log( error);
