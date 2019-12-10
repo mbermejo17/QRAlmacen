@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
 
   public chatRooms: any = [];
   public articles: any = [];
+  public models: any = [];
 
   constructor(
     public authservice: AuthService,
@@ -29,9 +30,9 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.articleservice.getArticles().subscribe( data => {
-      this.articles = data;
-      console.log('data: ',data);
+    this.articleservice.getTotalArticlesByModel().subscribe(data => {
+      this.models = data;
+      console.log('data: ', data);
     });
     /* this.chatservice.getChatRooms().subscribe(chats => {
       this.chatRooms = chats;
@@ -39,13 +40,18 @@ export class HomePage implements OnInit {
   }
 
   openArticle(art) {
-    console.log(art._id);
-    this.modal.create({
-      component: ArticleComponent,
-      componentProps: {
-        art: art._id
-      }
-    }).then((modal) => modal.present())
+    console.log('Modelo seleccionado: ', art);
+    this.articleservice.getArticlesByModel(art).subscribe(data => {
+      this.articles = data;
+      console.log('data: ', data);
+      this.modal.create({
+        component: ArticleComponent,
+        componentProps: {
+          art,
+          articles: data
+        }
+      }).then((modal) => modal.present());
+    });
   }
 
   async presentActionSheet() {

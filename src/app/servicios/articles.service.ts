@@ -18,16 +18,27 @@ export class ArticlesService {
     public http: HttpClient
   ) { }
 
-  getArticles(){
+  getArticles() {
     const url = 'http://localhost:3000/article?limite=900';
     return this.http.get<any>(url)
-    .map( (data: any)=> data.articles);
+      .map((data: any) => data.articles);
   }
 
-  getArticle(id){
+  getArticle(id) {
     const url = 'http://localhost:3000/article/';
     return this.http.get<any>(url + id)
-    .map( (data: any)=> data.articulo);
+      .map((data: any) => data.articulo);
+  }
+
+  getTotalArticlesByModel() {
+    const url = 'http://localhost:3000/model/total';
+    return this.http.get<any>(url)
+      .map((data: any) => data.models);
+  }
+  getArticlesByModel(id) {
+    const url = 'http://localhost:3000/model/articles/';
+    return this.http.get<any>(url + id)
+      .map((data: any) => data.articles);
   }
 
 }

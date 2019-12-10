@@ -11,6 +11,7 @@ export class ArticleComponent implements OnInit {
     
   public art: any;
   public article: any;
+  public articles: any = [];
    
   constructor(
     private articleservice: ArticlesService,
@@ -24,6 +25,7 @@ export class ArticleComponent implements OnInit {
       this.article = data;
     });
     this.art = this.navparams.get('art');
+    this.articles = this.navparams.get('articles');
   }
 
 

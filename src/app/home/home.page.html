@@ -4,7 +4,7 @@
             <ion-icon style="color:#fff" name="menu"></ion-icon>
         </ion-button>
         <ion-title>
-            Ultimos movimientos
+            Inventario por modelos
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -12,15 +12,14 @@
 <ion-content padding>
 
     <ion-list>
-        <ion-item *ngFor="let article of articles" (click)="openArticle(article)">
+        <ion-item *ngFor="let model of models" (click)="openArticle(model.Name)">
             <ion-avatar slot="start">
                 <ion-img></ion-img>
             </ion-avatar>
             <ion-label>
-                <h2> <b>{{ article.Name }}</b> </h2>
-                <p>{{ article.Description}}</p>
-                <p>{{ article._id }}</p>
+                <h2> <b>{{ model.Name }}</b> </h2>
             </ion-label>
+            <ion-badge color="primary" slot="end">{{ model.Total }}</ion-badge>
         </ion-item>
 
     </ion-list>

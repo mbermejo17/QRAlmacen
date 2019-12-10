@@ -3,12 +3,12 @@
         <ion-button slot="start" fill="clear" (click)="closeArticle()">
             <ion-icon style="color:#fff; font-size: 25px" name="arrow-round-back"></ion-icon>
         </ion-button>
-        <ion-title><h1>{{article.Name}}</h1></ion-title>
+        <ion-title><h1>{{ art }}</h1></ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-        <ion-card>
+        <ion-card *ngFor="let article of articles">
             <ion-card-content>
                 <br>
                 <p>Descripción:</p>
