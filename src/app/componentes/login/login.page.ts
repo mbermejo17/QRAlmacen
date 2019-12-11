@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../servicios/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/usuario.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,8 @@ import { User } from '../../models/usuario.model';
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  email: string;
-  password: string;
+  public email: string ='';
+  public password: string ='';
 
   constructor(
     private authService: AuthService,
@@ -21,7 +22,8 @@ export class LoginPage implements OnInit {
 
   onSubmitLogin() {
     const usuario = new User(null, this.email, this.password);
-
+    console.log(this.email, this.password);
+    console.log('User Name: ' + usuario.nombre +', email: '+ usuario.email +', password: '+ usuario.password);
     this.authService.login(usuario, true)
     .subscribe( resp => {
       if (resp.ok) {

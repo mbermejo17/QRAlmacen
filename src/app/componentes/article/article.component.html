@@ -3,21 +3,22 @@
         <ion-button slot="start" fill="clear" (click)="closeArticle()">
             <ion-icon style="color:#fff; font-size: 25px" name="arrow-round-back"></ion-icon>
         </ion-button>
-        <ion-title><h1>{{ art }}</h1></ion-title>
+        <ion-title>
+            <h4>{{ art }}</h4>
+        </ion-title>
     </ion-toolbar>
 </ion-header>
-
 <ion-content padding>
-        <ion-card *ngFor="let article of articles">
-            <ion-card-content>
-                <br>
-                <p>Descripción:</p>
-                <p>{{ article.Description }}</p><br>
-                <p>Localización: {{ article.Location }}</p><br>
-                <p>Fabricante: {{ article.Manufacturer }}</p><br>
-                <p>Numero de Parte: {{ article.PartNumber}}</p><br>
-                <p>Estado: {{ article.Status }} </p><br>
-                <p>Ultimo movimiento: {{ article.LastMovement }}</p>
-            </ion-card-content>
-        </ion-card>
+    <ion-card *ngFor="let article of articles">
+        <ion-card-content>
+            <br>
+            <ion-label color="primary">Nombre:</ion-label>{{ article.Name }}<br>
+            <ion-label color="primary">Descripción:</ion-label> {{ article.Description }}<br>
+            <ion-label color="primary">Localización:</ion-label> <b>{{ article.Location }}</b><br>
+            <ion-label color="primary">Fabricante:</ion-label> {{ article.Manufacturer }}<br>
+            <ion-label color="primary">Numero de Parte:</ion-label> {{ article.PartNumber}}<br>
+            <ion-label color="primary">Estado:</ion-label> {{ article.Status }}<br>
+            <ion-label color="primary">Ultimo movimiento:</ion-label> {{ article.LastMovement }}
+        </ion-card-content>
+    </ion-card>
 </ion-content>

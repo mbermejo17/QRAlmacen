@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Article } from '../models/article.model';
 
+import { environment } from '../../environments/environment';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -13,30 +15,31 @@ import 'rxjs/add/operator/catch';
 export class ArticlesService {
 
   article: Article;
+  ApiUrl = environment.ApiURL; 
 
   constructor(
     public http: HttpClient
   ) { }
 
   getArticles() {
-    const url = 'http://localhost:3000/article?limite=900';
+    const url = this.ApiUrl +'/article?limite=900';
     return this.http.get<any>(url)
       .map((data: any) => data.articles);
   }
 
   getArticle(id) {
-    const url = 'http://localhost:3000/article/';
+    const url = this.ApiUrl + '/article/';
     return this.http.get<any>(url + id)
       .map((data: any) => data.articulo);
   }
 
   getTotalArticlesByModel() {
-    const url = 'http://localhost:3000/model/total';
+    const url = this.ApiUrl + '/model/total';
     return this.http.get<any>(url)
       .map((data: any) => data.models);
   }
   getArticlesByModel(id) {
-    const url = 'http://localhost:3000/model/articles/';
+    const url = this.ApiUrl +'/model/articles/';
     return this.http.get<any>(url + id)
       .map((data: any) => data.articles);
   }

@@ -10,6 +10,8 @@ import 'rxjs/add/operator/map';
 import { tap } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +21,7 @@ export class AuthService {
   usuario: User;
   token: string;
   menu: any[] = [];
+  ApiURL = environment.ApiURL;
 
   constructor(
     private AFauth: AngularFireAuth,
@@ -63,7 +66,8 @@ export class AuthService {
     }
 
     // let url = URL_SERVICIOS + '/login';
-    const url = 'http://localhost:3000/login';
+    console.log(this.ApiURL);
+    const url = this.ApiURL +'/login';
     return this.http.post<any>(url, usuario);
       /* .pipe(
         tap((resp: any) => {

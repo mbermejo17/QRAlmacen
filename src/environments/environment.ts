@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseURL: window.location.protocol + '//'+window.location.hostname + ':' + window.location.port,
+  ApiURL: window.location.protocol + '//'+window.location.hostname + ':3000'
 };
 
 
