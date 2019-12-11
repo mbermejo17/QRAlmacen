@@ -23,16 +23,19 @@ export class HomePage implements OnInit {
     public chatservice: ChatsService,
     public articleservice: ArticlesService,
     public actionSheetController: ActionSheetController,
-    private modal: ModalController) { }
+    private modal: ModalController) {
+  }
 
   Onlogout() {
     this.authservice.logout();
   }
 
   ngOnInit() {
+    // this.loadingController.create();
     this.articleservice.getTotalArticlesByModel().subscribe(data => {
       this.models = data;
       console.log('data: ', data);
+      // this.loadingController.dismiss();
     });
     /* this.chatservice.getChatRooms().subscribe(chats => {
       this.chatRooms = chats;
@@ -41,17 +44,19 @@ export class HomePage implements OnInit {
 
   openArticle(art) {
     console.log('Modelo seleccionado: ', art);
-    this.articleservice.getArticlesByModel(art).subscribe(data => {
-      this.articles = data;
-      console.log('data: ', data);
-      this.modal.create({
-        component: ArticleComponent,
-        componentProps: {
-          art,
-          articles: data
-        }
-      }).then((modal) => modal.present());
-    });
+    if (art.Total > 0) {
+      this.articleservice.getArticlesByModel(art.Name).subscribe(data => {
+        this.articles = data;
+        console.log('data: ', data);
+        this.modal.create({
+          component: ArticleComponent,
+          componentProps: {
+            art: art.Name,
+            articles: data
+          }
+        }).then((modal) => modal.present());
+      });
+    }
   }
 
   async presentActionSheet() {

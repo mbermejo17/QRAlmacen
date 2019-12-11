@@ -38,15 +38,18 @@ export class AuthService {
 
 
   guardarStorage(id: string, token: string, usuario: User, menu: any) {
+    return new Promise((resolve, reject) => {
+      localStorage.setItem('id', id);
+      localStorage.setItem('token', token);
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+      localStorage.setItem('menu', JSON.stringify(menu));
 
-    localStorage.setItem('id', id);
-    localStorage.setItem('token', token);
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-    localStorage.setItem('menu', JSON.stringify(menu));
+      this.usuario = usuario;
+      this.token = token;
+      this.menu = menu;
+      resolve();
+    });
 
-    this.usuario = usuario;
-    this.token = token;
-    this.menu = menu;
   }
 
   borrarStorage() {
@@ -67,24 +70,24 @@ export class AuthService {
 
     // let url = URL_SERVICIOS + '/login';
     console.log(this.ApiURL);
-    const url = this.ApiURL +'/login';
+    const url = this.ApiURL + '/login';
     return this.http.post<any>(url, usuario);
-      /* .pipe(
-        tap((resp: any) => {
-          if (resp.ok) {
-            this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
-            return true;
-          } else {
-            return false;
-          }
+    /* .pipe(
+      tap((resp: any) => {
+        if (resp.ok) {
+          this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
+          return true;
+        } else {
+          return false;
         }
-        ))
-      .catch((err) => {
-        // swal('Error en el login', err.error.mensaje, 'error');
-        return throwError(err);
-      }); */
-     /*  .map((res: Response) => res.json()) // ...and calling .json() on the response to return data
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error')); */
+      }
+      ))
+    .catch((err) => {
+      // swal('Error en el login', err.error.mensaje, 'error');
+      return throwError(err);
+    }); */
+    /*  .map((res: Response) => res.json()) // ...and calling .json() on the response to return data
+     .catch((error: any) => Observable.throw(error.json().error || 'Server error')); */
   }
   logout() {
     this.borrarStorage();

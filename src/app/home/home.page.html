@@ -12,14 +12,14 @@
 <ion-content padding>
 
     <ion-list>
-        <ion-item *ngFor="let model of models" (click)="openArticle(model.Name)">
+        <ion-item *ngFor="let model of models" (click)="openArticle(model)">
             <ion-avatar slot="start">
-                <ion-img></ion-img>
+                <ion-icon name="list-box" color="primary"></ion-icon>
             </ion-avatar>
             <ion-label>
                 <h2> <b>{{ model.Name }}</b> </h2>
             </ion-label>
-            <ion-badge color="primary" slot="end">{{ model.Total }}</ion-badge>
+            <ion-badge color="primary" slot="end" type="ios">{{ model.Total }}</ion-badge>
         </ion-item>
 
     </ion-list>

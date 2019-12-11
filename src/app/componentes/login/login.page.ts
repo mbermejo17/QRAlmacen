@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { AuthService } from '../../servicios/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/usuario.model';
@@ -10,33 +11,34 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  public email: string ='';
-  public password: string ='';
+  public email = '';
+  public password = '';
+  loginUser = new User(null, '', '', '') ;
 
   constructor(
+    private navCtrl: NavController,
     private authService: AuthService,
     public router: Router
   ) { }
 
   ngOnInit() { }
 
-  onSubmitLogin() {
-    const usuario = new User(null, this.email, this.password);
-<<<<<<< HEAD
-    console.log(this.email, this.password);
-    console.log('User Name: ' + usuario.nombre +', email: '+ usuario.email +', password: '+ usuario.password);
-=======
-    var self = this;
->>>>>>> 585d4c2e0d8ff6f417c09395a41690706b3ee302
-    this.authService.login(usuario, true)
-    .subscribe( resp => {
-      if (resp.ok) {
-        this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
-        self.router.navigate(['/home']);
-      } 
-    }, error =>{
-       console.log( error);
-    });
+ async onSubmitLogin(fLogin: NgForm ) {
+    console.log(fLogin);
+    this.loginUser.email = fLogin.form.value.email;
+    this.loginUser.password =  fLogin.form.value.password;
+    await this.authService.login( this.loginUser , true)
+      .subscribe(resp => {
+        if (resp.ok) {
+          this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu)
+          .then(() =>{
+            // this.navCtrl.navigateRoot( '/app/home', { animated: true } );
+             this.router.navigate(['/home']);
+          });
+        }
+      }, error => {
+        console.log(error);
+      });
   }
 
 }
