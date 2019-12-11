@@ -22,13 +22,17 @@ export class LoginPage implements OnInit {
 
   onSubmitLogin() {
     const usuario = new User(null, this.email, this.password);
+<<<<<<< HEAD
     console.log(this.email, this.password);
     console.log('User Name: ' + usuario.nombre +', email: '+ usuario.email +', password: '+ usuario.password);
+=======
+    var self = this;
+>>>>>>> 585d4c2e0d8ff6f417c09395a41690706b3ee302
     this.authService.login(usuario, true)
     .subscribe( resp => {
       if (resp.ok) {
         this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
-        this.router.navigate(['/home']);
+        self.router.navigate(['/home']);
       } 
     }, error =>{
        console.log( error);
