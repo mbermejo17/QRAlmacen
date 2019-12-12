@@ -15,14 +15,14 @@ import 'rxjs/add/operator/catch';
 export class ArticlesService {
 
   article: Article;
-  ApiUrl = environment.ApiURL; 
+  ApiUrl = environment.ApiURL;
 
   constructor(
     public http: HttpClient
   ) { }
 
   getArticles() {
-    const url = this.ApiUrl +'/article?limite=900';
+    const url = this.ApiUrl + '/article?limite=900';
     return this.http.get<any>(url)
       .map((data: any) => data.articles);
   }
@@ -39,7 +39,8 @@ export class ArticlesService {
       .map((data: any) => data.models);
   }
   getArticlesByModel(id) {
-    const url = this.ApiUrl +'/model/articles/';
+    const url = this.ApiUrl + '/model/articles/';
+    console.log(id);
     return this.http.get<any>(url + id)
       .map((data: any) => data.articles);
   }

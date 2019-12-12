@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button slot="start" fill="clear" (click)="closeSearch()">
+      <ion-icon style="color:#fff; font-size: 25px" name="arrow-round-back"></ion-icon>
+    </ion-button>
+    <ion-title text-center>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card *ngIf="plattformcordova">
+    <ion-card-header>
+      <ion-card-subtitle></ion-card-subtitle>
+      <ion-card-title>Texto</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-item>
+            <ion-textarea placeholder="Pulse el boton para inicir la escucha..."></ion-textarea>
+          </ion-item>
+        <ion-item></ion-item>  
+      <ion-button (click)="startListening()" [style.background-color]="message" shape="round" expand="block">Iniciar
+        escucha</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="!plattformcordova">
+      <ion-card-header>
+        <ion-card-subtitle></ion-card-subtitle>
+        <ion-card-title>Texto</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          <ion-item>
+              <ion-input type="text" 
+              mdInput
+              placeholder="Escriba el texto a buscar..."
+              [(ngModel)]="searchText" 
+              name="searchText"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item></ion-item>  
+        <ion-button (click)="startSearch(searchText)" 
+        [style.background-color]="message" 
+        shape="round" 
+        expand="block"
+        >Buscar</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+</ion-content>

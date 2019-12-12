@@ -1,10 +1,14 @@
 <ion-header>
     <ion-toolbar color="tertiary">
+            <ion-button slot="end" fill="clear" (click)="goToSearchPage()">
+                    <ion-icon style="color:#fff" name="mic" *ngIf="plattformcordova"></ion-icon>
+                    <ion-icon style="color:#fff" name="search" *ngIf="!plattformcordova"></ion-icon>
+            </ion-button>
         <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
             <ion-icon style="color:#fff" name="menu"></ion-icon>
         </ion-button>
         <ion-title>
-            Inventario por modelos
+            Inventario Modelos
         </ion-title>
     </ion-toolbar>
 </ion-header>

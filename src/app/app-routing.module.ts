@@ -8,6 +8,8 @@ const routes: Routes = [
   { path: 'home', loadChildren: './home/home.module#HomePageModule', canActivate : [AuthGuard] },
   { path: 'login', loadChildren: './componentes/login/login.module#LoginPageModule', canActivate : [NoLoginGuard] },
   { path: 'registro', loadChildren: './componentes/registro/registro.module#RegistroPageModule', canActivate : [NoLoginGuard] },
+  // tslint:disable-next-line: max-line-length
+  {path: 'buscar', loadChildren: './componentes/speech-search/speech-search.module#SpeechSearchPageModule'}
 ];
 
 @NgModule({

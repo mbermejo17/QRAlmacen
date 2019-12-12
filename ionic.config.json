@@ -1,5 +1,7 @@
 {
   "name": "QRAlmacen",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

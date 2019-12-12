@@ -20,10 +20,10 @@ export class ArticleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.articleservice.getArticle(this.art).subscribe(data =>{
+   /*  this.articleservice.getArticle(this.art).subscribe(data =>{
       console.log(data);
       this.article = data;
-    });
+    }); */
     this.art = this.navparams.get('art');
     this.articles = this.navparams.get('articles');
   }

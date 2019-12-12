@@ -31,10 +31,12 @@ export class LoginPage implements OnInit {
       .subscribe(resp => {
         if (resp.ok) {
           this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu)
-          .then(() =>{
+          .then(() => {
+             console.log('OK');
             // this.navCtrl.navigateRoot( '/app/home', { animated: true } );
-             this.router.navigate(['/home']);
-          });
+             this.router.navigate(['home']);
+          })
+          .catch((err) => console.log(err));
         }
       }, error => {
         console.log(error);
