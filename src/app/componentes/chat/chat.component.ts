@@ -47,7 +47,7 @@ export class ChatComponent implements OnInit {
     date : new Date()
     }
     
-  this.chatService.sendMsgToFirebase( mensaje, this.chat.id);
+  
   this.msg = "";
   }
 }
