@@ -21,7 +21,7 @@ export class SpeechSearchPage implements OnInit {
     private speechRecognition: SpeechRecognition,
     private router: Router
   ) {
-    
+
   }
 
   ngOnInit() {

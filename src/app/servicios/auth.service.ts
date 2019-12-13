@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 
@@ -24,9 +22,7 @@ export class AuthService {
   ApiURL = environment.ApiURL;
 
   constructor(
-    private AFauth: AngularFireAuth,
     private router: Router,
-    private db: AngularFirestore,
     public http: HttpClient
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('usuario')));
@@ -55,7 +51,7 @@ export class AuthService {
   borrarStorage() {
     localStorage.clear();
 
-    this.token = "";
+    this.token = '';
     this.menu = [];
   }
 
@@ -96,18 +92,7 @@ export class AuthService {
 
   register(email: string, password: string, name: string) {
 
-    return new Promise((resolve, reject) => {
-      this.AFauth.auth.createUserWithEmailAndPassword(email, password).then(res => {
-        // console.log(res.user.uid);
-        const uid = res.user.uid;
-        this.db.collection('users').doc(uid).set({
-          name,
-          uid
-        });
-
-        resolve(res);
-      }).catch(err => reject(err));
-    });
+    return {};
   }
 
 }

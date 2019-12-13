@@ -26,12 +26,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
 
-    this.chatService.getChatRoom( this.chat.id).subscribe( room => {
-      console.log(room);
-      this.room = room;
-    })
-
-    this.chat = this.navparams.get('chat')
+   
   }
 
 

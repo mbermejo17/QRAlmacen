@@ -9,20 +9,17 @@ import { Router } from "@angular/router";
 })
 export class RegistroPage implements OnInit {
 
-  public  email : string;
-  public  name : string;
-  public password : string;
+  public email: string;
+  public name: string;
+  public password: string;
 
-  constructor(private auth : AuthService, private router : Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  OnSubmitRegister(){
-    this.auth.register(this.email, this.password,this.name).then( auth => {
-      this.router.navigate(['home'])
-      console.log(auth)
-    }).catch(err => console.log(err))
+  OnSubmitRegister() {
+    this.router.navigate(['home']);
   }
 
 }
