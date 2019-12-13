@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ModalController } from "@ionic/angular";
 import { ArticlesService } from '../../servicios/articles.service';
-
+import { ArticleactionsPage } from '../articleactions/articleactions.page';
+ 
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
@@ -16,7 +17,7 @@ export class ArticleComponent implements OnInit {
   constructor(
     private articleservice: ArticlesService,
     private navparams: NavParams, 
-    private modal: ModalController,
+    private _modal: ModalController
   ) { }
 
   ngOnInit() {
@@ -27,10 +28,20 @@ export class ArticleComponent implements OnInit {
     this.art = this.navparams.get('art');
     this.articles = this.navparams.get('articles');
   }
-
+ 
+  onClickShowActions(artObj)
+  {
+    this._modal.create({
+      component: ArticleactionsPage,
+      componentProps: {
+        art: artObj.Name,
+        article: artObj
+      }
+    }).then((modal) => modal.present());
+  }
 
   closeArticle() {
-    this.modal.dismiss()
+    this._modal.dismiss()
   }
 
 }

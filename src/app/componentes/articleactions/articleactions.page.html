@@ -1,16 +1,17 @@
 <ion-header>
     <ion-toolbar color="tertiary">
-        <ion-button slot="start" fill="clear" (click)="closeArticle()">
+        <ion-button slot="start" fill="clear" (click)="closeArticleActions()">
             <ion-icon style="color:#fff; font-size: 25px" name="arrow-round-back"></ion-icon>
         </ion-button>
         <ion-title>
-            <h4>{{ art }}</h4>
+            <h4>{{ article.Name }}</h4>
         </ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
-    <ion-card *ngFor="let article of articles">
-        <ion-card-content (click)='onClickShowActions(article)'>
+
+<ion-content>
+    <ion-card>
+        <ion-card-content>
             <br>
             <ion-label color="primary">Nombre:</ion-label>{{ article.Name }}<br>
             <ion-label color="primary">Descripción:</ion-label> {{ article.Description }}<br>
@@ -19,6 +20,12 @@
             <ion-label color="primary">Numero de Parte:</ion-label> {{ article.PartNumber}}<br>
             <ion-label color="primary">Estado:</ion-label> {{ article.Status }}<br>
             <ion-label color="primary">Ultimo movimiento:</ion-label> {{ article.LastMovement }}
+            <br><br><br>
+            <section>
+                <ion-button color="primary">Scan QR</ion-button>
+                <ion-button color="danger">Salida</ion-button>
+                <ion-button color="success">Entrada</ion-button>
+            </section>
         </ion-card-content>
     </ion-card>
 </ion-content>

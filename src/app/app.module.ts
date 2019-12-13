@@ -1,3 +1,5 @@
+
+import { ArticleactionsPage } from './componentes/articleactions/articleactions.page';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ChatComponent } from './componentes/chat/chat.component';
 import { ArticleComponent } from './componentes/article/article.component';
 
+
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -20,8 +23,8 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent, ChatComponent, ArticleComponent],
-  entryComponents: [ ChatComponent, ArticleComponent],
+  declarations: [AppComponent, ChatComponent, ArticleComponent, ArticleactionsPage ],
+  entryComponents: [ ChatComponent, ArticleComponent, ArticleactionsPage ],
   imports: [FormsModule,
     BrowserModule,
     IonicModule.forRoot(),

@@ -4,6 +4,8 @@ import { AuthService } from '../../servicios/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/usuario.model';
 import { NgForm } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -18,10 +20,22 @@ export class LoginPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private authService: AuthService,
-    public router: Router
+    private _router: Router,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() { }
+
+  async presentToast(message:string ) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      animated: true,
+      cssClass: ['custom-toast'],
+      color: 'danger'
+    });
+    toast.present();
+  } 
 
  async onSubmitLogin(fLogin: NgForm ) {
     console.log(fLogin);
@@ -34,12 +48,16 @@ export class LoginPage implements OnInit {
           .then(() => {
              console.log('OK');
             // this.navCtrl.navigateRoot( '/app/home', { animated: true } );
-             this.router.navigate(['home']);
+             this._router.navigate(['home']);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            this.presentToast(err);
+            console.log(err)
+          });
         }
       }, error => {
-        console.log(error);
+        this.presentToast(error.statusText);
+        console.log("Error:",error);
       });
   }
 
