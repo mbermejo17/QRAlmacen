@@ -13,6 +13,12 @@
     <ion-card>
         <ion-card-content>
             <br>
+            <section>
+                <ion-button color="primary" (click)="scan()">Scan QR</ion-button>
+                <ion-button color="danger">Salida</ion-button>
+                <ion-button color="success">Entrada</ion-button>
+            </section>
+            <br>
             <ion-label color="primary">Nombre:</ion-label>{{ article.Name }}<br>
             <ion-label color="primary">Descripción:</ion-label> {{ article.Description }}<br>
             <ion-label color="primary">Localización:</ion-label> <b>{{ article.Location }}</b><br>
@@ -20,12 +26,51 @@
             <ion-label color="primary">Numero de Parte:</ion-label> {{ article.PartNumber}}<br>
             <ion-label color="primary">Estado:</ion-label> {{ article.Status }}<br>
             <ion-label color="primary">Ultimo movimiento:</ion-label> {{ article.LastMovement }}
-            <br><br><br>
-            <section>
-                <ion-button color="primary">Scan QR</ion-button>
-                <ion-button color="danger">Salida</ion-button>
-                <ion-button color="success">Entrada</ion-button>
-            </section>
+            <br><br>
+            <ion-list>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <ion-icon name="remove-circle-outline"></ion-icon>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>11/12/2019</h2>
+                    </ion-label>
+                    <ion-label>
+                        <h2>Usuario1</h2>
+                    </ion-label>
+                    <ion-label>
+                        <h2>Salida</h2>
+                    </ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <ion-icon name="add-circle-outline"></ion-icon>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>1/12/2019</h2>
+                    </ion-label>
+                    <ion-label>
+                        <h2>Usuario2</h2>
+                    </ion-label>
+                    <ion-label>
+                        <h2>Entrada</h2>
+                    </ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <ion-icon name="remove-circle-outline"></ion-icon>
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>10/10/2019</h2>
+                    </ion-label>
+                    <ion-label>
+                        <h2>Usuario1</h2>
+                    </ion-label>
+                    <ion-label>
+                        <h2>Salida</h2>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
         </ion-card-content>
     </ion-card>
 </ion-content>

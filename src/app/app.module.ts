@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 
 @NgModule({
@@ -36,6 +36,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
     SplashScreen,
     HttpClient,
     SpeechRecognition,
+    BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
