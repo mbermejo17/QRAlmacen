@@ -15,7 +15,7 @@ import { ToastController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   public email = '';
   public password = '';
-  loginUser = new User(null, '', '', '') ;
+  loginUser = new User(null, '', '', '');
 
   constructor(
     private navCtrl: NavController,
@@ -26,39 +26,45 @@ export class LoginPage implements OnInit {
 
   ngOnInit() { }
 
-  async presentToast(message:string ) {
+  async presentToast(message: string) {
     const toast = await this.toastController.create({
-      message: message,
+      message,
       duration: 2000,
       animated: true,
       cssClass: ['custom-toast'],
       color: 'danger'
     });
     toast.present();
-  } 
+  }
 
- async onSubmitLogin(fLogin: NgForm ) {
+  async onSubmitLogin(fLogin: NgForm) {
     console.log(fLogin);
     this.loginUser.email = fLogin.form.value.email;
-    this.loginUser.password =  fLogin.form.value.password;
-    await this.authService.login( this.loginUser , true)
+    this.loginUser.password = fLogin.form.value.password;
+    await this.authService.login(this.loginUser, true)
       .subscribe(resp => {
         if (resp.ok) {
           this.authService.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu)
-          .then(() => {
-             console.log('OK');
-            // this.navCtrl.navigateRoot( '/app/home', { animated: true } );
-             this._router.navigate(['home']);
-          })
-          .catch((err) => {
-            this.presentToast(err);
-            console.log(err)
-          });
+            .then(() => {
+              console.log('OK');
+              this.navCtrl.navigateRoot( ['home'], { animated: true } );
+              // this._router.navigate(['home']);
+            })
+            .catch((err) => {
+              this.presentToast(err);
+              console.log(err)
+            });
         }
       }, error => {
         this.presentToast(error.statusText);
-        console.log("Error:",error);
+        console.log('Error:', error);
       });
+  }
+
+
+  ionViewDidLeave() {
+    // Do actions here
+    console.log('toy aqui');
   }
 
 }

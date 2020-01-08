@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { NavParams, ModalController } from "@ionic/angular";
+import { NavParams, ModalController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ToastController } from '@ionic/angular';
 import { Registro } from '../../models/registro';
@@ -25,7 +25,7 @@ export class ArticleactionsPage implements OnInit, AfterViewInit {
     private toastController: ToastController,
     private renderer: Renderer,
     private elem: ElementRef,
-    private registro: Registro
+    // private registro: Registro
   ) { }
 
   ngOnInit() {
@@ -50,7 +50,7 @@ export class ArticleactionsPage implements OnInit, AfterViewInit {
 
   async presentToast(message: string) {
     this.toast = await this.toastController.create({
-      message: message,
+      message,
       animated: true,
       position: 'middle',
       duration: 30000,
@@ -67,10 +67,10 @@ export class ArticleactionsPage implements OnInit, AfterViewInit {
 
   scan() {
     this.barcodeScanner.scan().then(barcodeData => {
-      this.registro = new Registro(barcodeData.format, barcodeData.text);
+      const registro = new Registro(barcodeData.format, barcodeData.text);
       // this.presentToast(JSON.stringify(barcodeData));
       console.log('Barcode data', barcodeData);
-      console.log('BarCode Type', this.registro.type);
+      console.log('BarCode Type', registro.type);
     }).catch(err => {
       console.log('Error', err);
     });

@@ -22,6 +22,11 @@ export class SpeechSearchPage implements OnInit {
     private router: Router
   ) {
 
+    this.speechRecognition.requestPermission()
+      .then(
+        () => console.log('Granted'),
+        () => console.log('Denied')
+      );
   }
 
   ngOnInit() {
@@ -55,9 +60,9 @@ export class SpeechSearchPage implements OnInit {
     }
   }
 
-  startSearch( text ) {
+  startSearch(text) {
     // globalSearch
-    console.log( text );
+    console.log(text);
   }
 
   getPermission() {

@@ -22,6 +22,8 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 
+
+
 @NgModule({
   declarations: [AppComponent, ChatComponent, ArticleComponent, ArticleactionsPage ],
   entryComponents: [ ChatComponent, ArticleComponent, ArticleactionsPage ],
