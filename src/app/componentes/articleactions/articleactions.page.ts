@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular
 import { NavParams, ModalController } from "@ionic/angular";
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ToastController } from '@ionic/angular';
+import { Registro } from '../../models/registro';
+
 
 
 @Component({
@@ -13,16 +15,17 @@ import { ToastController } from '@ionic/angular';
 export class ArticleactionsPage implements OnInit, AfterViewInit {
 
   article: any;
-  el : any;
-  toast : any;
+  el: any;
+  toast: any;
 
-  constructor (
+  constructor(
     private _navparams: NavParams,
     private _modal: ModalController,
     private barcodeScanner: BarcodeScanner,
     private toastController: ToastController,
-    private renderer: Renderer, 
-    private elem: ElementRef
+    private renderer: Renderer,
+    private elem: ElementRef,
+    private registro: Registro
   ) { }
 
   ngOnInit() {
@@ -31,14 +34,14 @@ export class ArticleactionsPage implements OnInit, AfterViewInit {
     this.el = window.document.querySelectorAll('.custom-toast');
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     // you'll get your through 'elements' below code
     this.el = this.elem.nativeElement.querySelectorAll('.custom-toast');
     console.log(this.el);
-    this.el[0].this.addEventListener('click', ()=>{
-     this.toast.close();
+    this.el[0].this.addEventListener('click', () => {
+      this.toast.close();
     });
-}
+  }
 
 
   closeArticleActions() {
@@ -59,13 +62,15 @@ export class ArticleactionsPage implements OnInit, AfterViewInit {
     });
     this.toast.present();
   };
-  
-  
+
+
 
   scan() {
     this.barcodeScanner.scan().then(barcodeData => {
-       this.presentToast(JSON.stringify(barcodeData));
+      this.registro = new Registro(barcodeData.format, barcodeData.text);
+      // this.presentToast(JSON.stringify(barcodeData));
       console.log('Barcode data', barcodeData);
+      console.log('BarCode Type', this.registro.type);
     }).catch(err => {
       console.log('Error', err);
     });
