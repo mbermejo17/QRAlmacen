@@ -11,13 +11,23 @@ export class Registro {
     constructor(format: string, text: string) {
 
         this.format = format;
-        this.text = text;
+        this.text = this.convertToJSON(text);
 
         this.created = new Date();
 
         this.determinarTipo();
 
     }
+
+    convertToJSON(text) {
+        let resultText = text.replace(/{/g, '{"');
+        resultText = resultText.replace(/}/g, '"}');
+        resultText = resultText.replace(/:/g, '":"');
+        resultText = resultText.replace(/,/g, '","');
+        console.log(JSON.parse(resultText));
+        return resultText;
+    }
+
 
     /* private determinarTipo() {
 
@@ -44,17 +54,17 @@ export class Registro {
     } */
     private determinarTipo() {
 
-        const dataType = JSON.parse(this.text);
-        console.log('TIPO', dataType);
+        const data = JSON.parse(this.text);
+        console.log('TIPO', data.DataType);
 
-        switch (dataType) {
+        switch (data.DataType) {
 
-            case ' Location':
+            case 'Location':
                 this.type = 'Location';
                 this.icon = 'ping';
                 break;
 
-            case ' Article':
+            case 'Article':
                 this.type = 'Article';
                 this.icon = 'globe';
                 break;

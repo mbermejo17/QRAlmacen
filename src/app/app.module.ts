@@ -24,6 +24,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 
 
+
 @NgModule({
   declarations: [AppComponent, ChatComponent, ArticleComponent, ArticleactionsPage ],
   entryComponents: [ ChatComponent, ArticleComponent, ArticleactionsPage ],
@@ -31,7 +32,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule,
+    HttpClientModule
     ],
   providers: [
     StatusBar,
