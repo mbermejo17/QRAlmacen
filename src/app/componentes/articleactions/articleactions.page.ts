@@ -61,7 +61,7 @@ export class ArticleactionsPage implements OnInit, AfterViewInit {
       color: 'success'
     });
     this.toast.present();
-  };
+  }
 
 
 

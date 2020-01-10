@@ -13,6 +13,7 @@ export class ArticleComponent implements OnInit {
   public art: any;
   public article: any;
   public articles: any = [];
+  public articlesTotal = 0;
 
   constructor(
     private articleservice: ArticlesService,
@@ -27,6 +28,8 @@ export class ArticleComponent implements OnInit {
      }); */
     this.art = this.navparams.get('art');
     this.articles = this.navparams.get('articles');
+    this.articlesTotal = this.navparams.get('articlesTotal');
+
   }
 
   onClickShowActions(artObj) {

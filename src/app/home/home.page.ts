@@ -21,6 +21,7 @@ export class HomePage implements OnInit {
   public chatRooms: any = [];
   public articles: any = [];
   public models: any = [];
+  public articlesTotal = 0;
   // tslint:disable-next-line: no-inferrable-types
   plattformcordova: boolean = false;
   isLoading = false;
@@ -45,10 +46,27 @@ export class HomePage implements OnInit {
     this.loadingController.dismiss();
     if (!this.isLoading) { this.presentLoading(); }
     if (window.cordova) { this.plattformcordova = true; }
+    const promise = this.articleservice.getTotalArticlesByModel().toPromise();
+    promise.then( (data) => {
+      this.models = data;
+      console.log('data: ', this.models);
+      if (data) {
+        this.loadingController.dismiss();
+        this.isLoading = false;
+      }
+    });
     // this.loadingController.create();
+    /* this.articleservice.getTotalArticlesByModel().subscribe(data => {
+      this.models = data;
+      console.log('data: ', this.models);
+      if (data) {
+        this.loadingController.dismiss();
+        this.isLoading = false;
+      }
+    }); */
     this.articleservice.getTotalArticlesByModel().subscribe(data => {
       this.models = data;
-      console.log('data: ', data);
+      console.log('data: ', this.models);
       if (data) {
         this.loadingController.dismiss();
         this.isLoading = false;
@@ -66,6 +84,7 @@ export class HomePage implements OnInit {
       console.log(art);
       this.articleservice.getArticlesByModel(art.Name).subscribe(data => {
         this.articles = data;
+        this.articlesTotal = data.lenght;
         console.log('data: ', data);
         if (this.isLoading) {
           this.loadingController.dismiss();
@@ -75,7 +94,8 @@ export class HomePage implements OnInit {
           component: ArticleComponent,
           componentProps: {
             art: art.Name,
-            articles: data
+            articles: data,
+            articlesTotal: data.lenght
           }
         }).then((modal) => modal.present());
       });
@@ -108,18 +128,19 @@ export class HomePage implements OnInit {
       if (!this.isLoading) { this.presentLoading(); }
       this.articleservice.getArticlesByLocation(code.Data).subscribe(data => {
         this.articles = data;
-        console.log('data: ', data);
-        if (data) {
-          this.loadingController.dismiss();
-          this.isLoading = false;
-        }
+        this.articlesTotal = data.lenght;
         this.modal.create({
           component: ArticleComponent,
           componentProps: {
             art: code.Data,
-            articles: data
+            articles: data,
+            articlesTotal: this.articlesTotal
           }
-        }).then((modal) => modal.present())
+        }).then((modal) => {
+          this.loadingController.dismiss();
+          this.isLoading = false;
+          return modal.present();
+        })
           .catch(err => {
             console.log(err);
             this.loadingController.dismiss();
