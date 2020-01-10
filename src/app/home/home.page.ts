@@ -107,7 +107,7 @@ export class HomePage implements OnInit {
       console.log('Error', err);
     });
   }
-  
+
 
 
   OpenModalInfo(d: Registro) {
