@@ -44,7 +44,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.loadingController.dismiss();
-    if (!this.isLoading) { this.presentLoading(); }
+    // if (!this.isLoading) { this.presentLoading(); }
     if (window.cordova) { this.plattformcordova = true; }
     const promise = this.articleservice.getTotalArticlesByModel().toPromise();
     promise.then( (data) => {
@@ -55,15 +55,6 @@ export class HomePage implements OnInit {
         this.isLoading = false;
       }
     });
-    // this.loadingController.create();
-    /* this.articleservice.getTotalArticlesByModel().subscribe(data => {
-      this.models = data;
-      console.log('data: ', this.models);
-      if (data) {
-        this.loadingController.dismiss();
-        this.isLoading = false;
-      }
-    }); */
     this.articleservice.getTotalArticlesByModel().subscribe(data => {
       this.models = data;
       console.log('data: ', this.models);
@@ -72,15 +63,12 @@ export class HomePage implements OnInit {
         this.isLoading = false;
       }
     });
-    /* this.chatservice.getChatRooms().subscribe(chats => {
-      this.chatRooms = chats;
-    }); */
-  }
+   }
 
   openArticle(art) {
     console.log('Modelo seleccionado: ', art);
     if (art.Total > 0) {
-      if (!this.isLoading) { this.presentLoading(); }
+     // if (!this.isLoading) { this.presentLoading(); }
       console.log(art);
       this.articleservice.getArticlesByModel(art.Name).subscribe(data => {
         this.articles = data;
@@ -110,7 +98,7 @@ export class HomePage implements OnInit {
       // this.presentToast(JSON.stringify(barcodeData));
 
       console.log('BarCode Type', this.registro.type);
-      if (this.registro.type === 'Location' || this.registro.type === 'Article') {
+      if (this.registro.type === 'Location' || this.registro.type === 'Article' || this.registro.type === 'Factory') {
         this.OpenModalInfo(this.registro);
       }
 
@@ -119,6 +107,7 @@ export class HomePage implements OnInit {
       console.log('Error', err);
     });
   }
+  
 
 
   OpenModalInfo(d: Registro) {
@@ -147,7 +136,29 @@ export class HomePage implements OnInit {
             this.isLoading = false;
           });
       });
-
+    }
+    if (d.type === 'Factory') {
+      this.articleservice.getArticlesContains(d.text).subscribe(data => {
+        this.articles = data;
+        this.articlesTotal = data.lenght;
+        this.modal.create({
+          component: ArticleComponent,
+          componentProps: {
+            art: d.text,
+            articles: data,
+            articlesTotal: this.articlesTotal
+          }
+        }).then((modal) => {
+          this.loadingController.dismiss();
+          this.isLoading = false;
+          return modal.present();
+        })
+          .catch(err => {
+            console.log(err);
+            this.loadingController.dismiss();
+            this.isLoading = false;
+          });
+      });
     }
   }
 

@@ -51,4 +51,11 @@ export class ArticlesService {
     return this.http.get<any>(url + id)
       .map((data: any) => data.articles);
   }
+  getArticlesContains(id) {
+    const url = this.ApiUrl + '/article/contains/';
+    console.log(id);
+    console.log(url + id);
+    return this.http.get<any>(url + id)
+      .map((data: any) => data.articles);
+  }
 }

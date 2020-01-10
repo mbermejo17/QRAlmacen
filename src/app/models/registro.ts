@@ -11,7 +11,7 @@ export class Registro {
     constructor(format: string, text: string) {
 
         this.format = format;
-        this.text = this.convertToJSON(text);
+        this.text = text;
 
         this.created = new Date();
 
@@ -20,58 +20,48 @@ export class Registro {
     }
 
     convertToJSON(text) {
-        let resultText = text.replace(/{/g, '{"');
+        if (text.indexOf('{') === -1 && text.indexOf('}') === -1) {
+            return text;
+        }
+        let resultText = '';
+        resultText = text.replace(/{/g, '{"');
         resultText = resultText.replace(/}/g, '"}');
         resultText = resultText.replace(/:/g, '":"');
         resultText = resultText.replace(/,/g, '","');
-        console.log(JSON.parse(resultText));
         return resultText;
     }
 
 
-    /* private determinarTipo() {
-
-        const inicioTexto = this.text.substr(0, 4);
-        console.log('TIPO', inicioTexto );
-
-        switch ( inicioTexto ) {
-
-            case 'http':
-                this.type = 'http';
-                this.icon = 'globe';
-            break;
-
-            case 'geo:':
-                this.type = 'geo';
-                this.icon = 'pin';
-            break;
-
-            default:
-                this.type = 'No reconocido';
-                this.icon = 'create';
-        }
-
-    } */
     private determinarTipo() {
 
-        const data = JSON.parse(this.text);
-        console.log('TIPO', data.DataType);
-
-        switch (data.DataType) {
-
-            case 'Location':
-                this.type = 'Location';
-                this.icon = 'ping';
-                break;
-
-            case 'Article':
-                this.type = 'Article';
-                this.icon = 'globe';
-                break;
-
-            default:
-                this.type = 'No reconocido';
+        try {
+            if (this.text === this.convertToJSON(this.text)) {
+                this.type = 'Factory';
                 this.icon = 'create';
+            } else {
+                const data = JSON.parse(this.text);
+                console.log('TIPO', data);
+                if (data.DataType) {
+                    switch (data.DataType) {
+
+                        case 'Location':
+                            this.type = 'Location';
+                            this.icon = 'ping';
+                            break;
+
+                        case 'Article':
+                            this.type = 'Article';
+                            this.icon = 'globe';
+                            break;
+
+                        default:
+                            this.type = 'No reconocido';
+                            this.icon = 'create';
+                    }
+                }
+            }
+        } catch (err) {
+            console.log(err);
         }
 
     }
