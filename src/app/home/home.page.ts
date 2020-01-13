@@ -138,6 +138,10 @@ export class HomePage implements OnInit {
       });
     }
     if (d.type === 'Factory') {
+      let modelName = '';
+      if(d.format === ''){
+        modelName = d.text;
+      }
       this.articleservice.getArticlesContains(d.text).subscribe(data => {
         this.articles = data;
         this.articlesTotal = data.lenght;
