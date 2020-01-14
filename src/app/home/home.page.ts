@@ -43,11 +43,12 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    
     this.loadingController.dismiss();
     // if (!this.isLoading) { this.presentLoading(); }
     if (window.cordova) { this.plattformcordova = true; }
     const promise = this.articleservice.getTotalArticlesByModel().toPromise();
-    promise.then( (data) => {
+    promise.then((data) => {
       this.models = data;
       console.log('data: ', this.models);
       if (data) {
@@ -63,12 +64,12 @@ export class HomePage implements OnInit {
         this.isLoading = false;
       }
     });
-   }
+  }
 
   openArticle(art) {
     console.log('Modelo seleccionado: ', art);
     if (art.Total > 0) {
-     // if (!this.isLoading) { this.presentLoading(); }
+      // if (!this.isLoading) { this.presentLoading(); }
       console.log(art);
       this.articleservice.getArticlesByModel(art.Name).subscribe(data => {
         this.articles = data;
@@ -93,11 +94,11 @@ export class HomePage implements OnInit {
 
   Scan() {
     this.barcodeScanner.scan().then(barcodeData => {
-      console.log('Barcode data', barcodeData.text);
+      console.log('Barcode', barcodeData);
       this.registro = new Registro(barcodeData.format, barcodeData.text);
       // this.presentToast(JSON.stringify(barcodeData));
 
-      console.log('BarCode Type', this.registro.type);
+      console.log('Registro: ', this.registro);
       if (this.registro.type === 'Location' || this.registro.type === 'Article' || this.registro.type === 'Factory') {
         this.OpenModalInfo(this.registro);
       }
@@ -139,7 +140,7 @@ export class HomePage implements OnInit {
     }
     if (d.type === 'Factory') {
       let modelName = '';
-      if(d.format === ''){
+      if (d.format === '') {
         modelName = d.text;
       }
       this.articleservice.getArticlesContains(d.text).subscribe(data => {
