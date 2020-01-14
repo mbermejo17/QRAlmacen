@@ -44,6 +44,12 @@ export class ArticlesService {
     return this.http.get<any>(url + id)
       .map((data: any) => data.articles);
   }
+  getArticlesByModelLocation(m, l) {
+    const url = this.ApiUrl + '/model/articles/';
+    console.log(m);
+    return this.http.get<any>(url + m + '/location/' + l)
+      .map((data: any) => data.articles);
+  }
   getArticlesByLocation(id) {
     const url = this.ApiUrl + '/article/location/';
     console.log(id);

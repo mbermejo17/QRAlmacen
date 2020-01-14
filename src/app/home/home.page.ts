@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Registro } from '../models/registro';
-
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +26,10 @@ export class HomePage implements OnInit {
   plattformcordova: boolean = false;
   isLoading = false;
   registro: Registro;
+  locationMode = false;
+  toast: any;
+  public lastLocation = '';
+  public totalModels = 0;
 
   constructor(
     public authservice: AuthService,
@@ -35,6 +39,7 @@ export class HomePage implements OnInit {
     public loadingController: LoadingController,
     private modal: ModalController,
     private barcodeScanner: BarcodeScanner,
+    private toastController: ToastController,
     private router: Router) {
   }
 
@@ -42,10 +47,22 @@ export class HomePage implements OnInit {
     this.authservice.logout();
   }
 
-  ngOnInit() {
-    this.loadingController.dismiss();
-    // if (!this.isLoading) { this.presentLoading(); }
-    if (window.cordova) { this.plattformcordova = true; }
+  async presentToast(message: string) {
+    this.toast = await this.toastController.create({
+      message,
+      animated: true,
+      position: 'middle',
+      duration: 5000,
+      keyboardClose: true,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+      cssClass: ['custom-toast'],
+      color: 'success'
+    });
+    this.toast.present();
+  }
+
+  goHome() {
     const promise = this.articleservice.getTotalArticlesByModel().toPromise();
     promise.then((data) => {
       this.models = data;
@@ -63,31 +80,74 @@ export class HomePage implements OnInit {
         this.isLoading = false;
       }
     });
+
+  }
+
+  ngOnInit() {
+    this.loadingController.dismiss();
+    this.locationMode = false;
+    // if (!this.isLoading) { this.presentLoading(); }
+    if (window.cordova) { this.plattformcordova = true; }
+    this.goHome();
   }
 
   openArticle(art) {
-    console.log('Modelo seleccionado: ', art);
-    if (art.Total > 0) {
-      // if (!this.isLoading) { this.presentLoading(); }
-      console.log(art);
-      this.articleservice.getArticlesByModel(art.Name).subscribe(data => {
-        this.articles = data;
-        this.articlesTotal = data.lenght;
-        console.log('data: ', data);
-        if (this.isLoading) {
-          this.loadingController.dismiss();
-          this.isLoading = false;
-        }
-        this.modal.create({
-          component: ArticleComponent,
-          componentProps: {
-            art: art.Name,
-            articles: data,
-            articlesTotal: data.lenght
+    let name = '';
+    let total = 0;
+    if (this.locationMode === true) {
+      name = art._id.PartNumber;
+      total = art.count;
+      if (total > 0) {
+        // if (!this.isLoading) { this.presentLoading(); }
+        console.log(art);
+        this.articleservice.getArticlesByModelLocation(name, art._id.Location).subscribe(data => {
+          this.articles = data;
+          this.articlesTotal = data.length;
+          console.log('data: ', data);
+          if (this.isLoading) {
+            this.loadingController.dismiss();
+            this.isLoading = false;
           }
-        }).then((modal) => modal.present());
-      });
+          this.modal.create({
+            component: ArticleComponent,
+            componentProps: {
+              art: name,
+              articles: data,
+              articlesTotal: data.length
+            }
+          }).then((modal) => modal.present());
+        });
+      } else {
+        this.goHome();
+      }
+    } else {
+      name = art.Name;
+      total = art.Total;
+      if (total > 0) {
+        // if (!this.isLoading) { this.presentLoading(); }
+        console.log(art);
+        this.articleservice.getArticlesByModel(name).subscribe(data => {
+          this.articles = data;
+          this.articlesTotal = data.length;
+          console.log('data: ', data);
+          if (this.isLoading) {
+            this.loadingController.dismiss();
+            this.isLoading = false;
+          }
+          this.modal.create({
+            component: ArticleComponent,
+            componentProps: {
+              art: name,
+              articles: data,
+              articlesTotal: data.length
+            }
+          }).then((modal) => modal.present());
+        });
+      } else {
+        this.goHome();
+      }
     }
+    console.log('Modelo seleccionado: ', art);
   }
 
 
@@ -113,26 +173,24 @@ export class HomePage implements OnInit {
   OpenModalInfo(d: Registro) {
     console.log('Tipo Scaneado: ', d);
     if (d.type === 'Location') {
+      this.locationMode = true;
       const code = JSON.parse(d.text);
+      this.lastLocation = code.Data;
       this.articleservice.getModelsByLocation(code.Data).subscribe(data => {
-        this.articles = data;
-        this.articlesTotal = data.lenght;
-        this.modal.create({
-          component: ArticleComponent,
-          componentProps: {
-            art: code.Data,
-            articles: data,
-            articlesTotal: this.articlesTotal
-          }
-        }).then((modal) => {
-          return modal.present();
-        })
-          .catch(err => {
-            console.log(err);
-            this.loadingController.dismiss();
-            this.isLoading = false;
-          });
-      });
+        // this.articles = data;
+        // this.articlesTotal = data.lenght;
+        this.totalModels = data.length;
+        if (data.length === 0) {
+          this.locationMode = false;
+          this.presentToast('No se encuetran articulos');
+          this.goHome();
+          return;
+        } else {
+          this.models = data;
+        }
+
+        console.log('Total modelos: ', this.totalModels);
+      }, (err) => console.log(err));
     }
     if (d.type === 'Factory') {
       let modelName = '';
@@ -141,7 +199,7 @@ export class HomePage implements OnInit {
       }
       this.articleservice.getArticlesContains(d.text).subscribe(data => {
         this.articles = data;
-        this.articlesTotal = data.lenght;
+        this.articlesTotal = data.length;
         this.modal.create({
           component: ArticleComponent,
           componentProps: {

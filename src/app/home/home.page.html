@@ -7,15 +7,18 @@
         <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
             <ion-icon style="color:#fff" name="menu"></ion-icon>
         </ion-button>
-        <ion-title>
+        <ion-title *ngIf='!locationMode'>
             Inventario Modelos
+        </ion-title>
+        <ion-title *ngIf='locationMode'>
+            {{ lastLocation }} ( {{ totalModels }} )
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
-    <ion-list>
+    <ion-list *ngIf='!locationMode'>
         <ion-item *ngFor="let model of models" (click)="openArticle(model)">
             <ion-avatar slot="start">
                 <ion-icon name="list-box" color="primary"></ion-icon>
@@ -25,7 +28,18 @@
             </ion-label>
             <ion-badge color="primary" slot="end" type="ios">{{ model.Total }}</ion-badge>
         </ion-item>
+    </ion-list>
 
+    <ion-list  *ngIf='locationMode'>
+        <ion-item *ngFor="let model of models" (click)="openArticle(model)">
+            <ion-avatar slot="start">
+                <ion-icon name="list-box" color="primary"></ion-icon>
+            </ion-avatar>
+            <ion-label>
+                <h2> <b>{{ model._id.PartNumber }}</b> </h2>
+            </ion-label>
+            <ion-badge color="primary" slot="end" type="ios">{{ model.count }}</ion-badge>
+        </ion-item>
     </ion-list>
 
     <ion-fab vertical="bottom" horizontal="start" slot="fixed">
