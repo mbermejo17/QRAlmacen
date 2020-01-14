@@ -43,7 +43,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    
     this.loadingController.dismiss();
     // if (!this.isLoading) { this.presentLoading(); }
     if (window.cordova) { this.plattformcordova = true; }
@@ -115,8 +114,7 @@ export class HomePage implements OnInit {
     console.log('Tipo Scaneado: ', d);
     if (d.type === 'Location') {
       const code = JSON.parse(d.text);
-      if (!this.isLoading) { this.presentLoading(); }
-      this.articleservice.getArticlesByLocation(code.Data).subscribe(data => {
+      this.articleservice.getModelsByLocation(code.Data).subscribe(data => {
         this.articles = data;
         this.articlesTotal = data.lenght;
         this.modal.create({
@@ -127,8 +125,6 @@ export class HomePage implements OnInit {
             articlesTotal: this.articlesTotal
           }
         }).then((modal) => {
-          this.loadingController.dismiss();
-          this.isLoading = false;
           return modal.present();
         })
           .catch(err => {

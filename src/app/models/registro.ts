@@ -9,7 +9,7 @@ export class Registro {
     public created: Date;
 
     constructor(format: string, text: string) {
-
+        console.log('hola');
         this.format = format;
         this.text = text;
 
@@ -35,10 +35,8 @@ export class Registro {
     private determinarTipo() {
 
         try {
-            if (this.text === this.convertToJSON(this.text)) {
-                this.type = 'Factory';
-                this.icon = 'create';
-            } else {
+            if (this.text.indexOf('{') !== -1 && this.text.indexOf('}') !== -1) {
+                this.text = this.convertToJSON(this.text);
                 const data = JSON.parse(this.text);
                 console.log('TIPO', data);
                 if (data.DataType) {
@@ -59,6 +57,9 @@ export class Registro {
                             this.icon = 'create';
                     }
                 }
+            } else {
+                this.type = 'Factory';
+                this.icon = 'create';
             }
         } catch (err) {
             console.log(err);
