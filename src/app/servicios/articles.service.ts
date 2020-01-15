@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -21,36 +22,36 @@ export class ArticlesService {
     public http: HttpClient
   ) { }
 
-  getArticles() {
+  getArticles(): Observable<any> {
     const url = this.ApiUrl + '/article?limite=900';
     return this.http.get<any>(url)
       .map((data: any) => data.articles);
   }
 
-  getArticle(id) {
+  getArticle(id): Observable<any> {
     const url = this.ApiUrl + '/article/';
     return this.http.get<any>(url + id)
       .map((data: any) => data.articulo);
   }
 
-  getTotalArticlesByModel() {
+  getTotalArticlesByModel(): Observable<any> {
     const url = this.ApiUrl + '/model/total';
     return this.http.get<any>(url)
       .map((data: any) => data.models);
   }
-  getArticlesByModel(id) {
+  getArticlesByModel(id): Observable<any> {
     const url = this.ApiUrl + '/model/articles/';
     console.log(id);
     return this.http.get<any>(url + id)
       .map((data: any) => data.articles);
   }
-  getArticlesByModelLocation(m, l) {
+  getArticlesByModelLocation(m, l): Observable<any> {
     const url = this.ApiUrl + '/model/articles/';
     console.log(m);
     return this.http.get<any>(url + m + '/location/' + l)
       .map((data: any) => data.articles);
   }
-  getArticlesByLocation(id) {
+  getArticlesByLocation(id): Observable<any> {
     const url = this.ApiUrl + '/article/location/';
     console.log(id);
     console.log(url + id);
@@ -58,15 +59,19 @@ export class ArticlesService {
       .map((data: any) => data.articles);
   }
 
-  getModelsByLocation(id) {
+  async getModelsByLocation(id): Promise<any> {
     const url = this.ApiUrl + '/model/location/';
     console.log(id);
     console.log(url + id);
-    return this.http.get<any>(url + id)
-      .map((data: any) => data.articles);
+    const result = await this.http.get<any>(url + id).toPromise();
+    //.map((data: any) => {
+      console.log('Data Articles: ', result);
+    //  return data.articles;
+    //});
+    return result;
   }
 
-  getArticlesContains(id) {
+  getArticlesContains(id): Observable<any> {
     const url = this.ApiUrl + '/article/contains/';
     console.log(id);
     console.log(url + id);

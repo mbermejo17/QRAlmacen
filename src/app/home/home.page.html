@@ -10,7 +10,10 @@
         <ion-title *ngIf='!locationMode'>
             Inventario Modelos
         </ion-title>
-        <ion-title *ngIf='locationMode'>
+        <ion-button slot="start" fill="clear" (click)="goBack()"  *ngIf='locationMode'>
+            <ion-icon style="color:#fff; font-size: 25px" name="arrow-round-back"></ion-icon>
+        </ion-button>
+        <ion-title *ngIf='locationMode'>            
             {{ lastLocation }} ( {{ totalModels }} )
         </ion-title>
     </ion-toolbar>

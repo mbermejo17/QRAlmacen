@@ -168,29 +168,36 @@ export class HomePage implements OnInit {
     });
   }
 
+  goBack(){
+    this.models = [];
+    this.locationMode = false;
+    this.goHome();
+  }
 
 
-  OpenModalInfo(d: Registro) {
+  async OpenModalInfo(d: Registro) {
     console.log('Tipo Scaneado: ', d);
     if (d.type === 'Location') {
       this.locationMode = true;
       const code = JSON.parse(d.text);
       this.lastLocation = code.Data;
-      this.articleservice.getModelsByLocation(code.Data).subscribe(data => {
+      const data = await this.articleservice.getModelsByLocation(code.Data);
+      
         // this.articles = data;
         // this.articlesTotal = data.lenght;
-        this.totalModels = data.length;
-        if (data.length === 0) {
+        this.totalModels = data.articles.length;
+        console.log('============== total =========', this.totalModels);
+        if (this.totalModels === 0) {
           this.locationMode = false;
+          this.models = [];
           this.presentToast('No se encuetran articulos');
           this.goHome();
-          return;
         } else {
-          this.models = data;
+          this.models = data.articles;
         }
 
         console.log('Total modelos: ', this.totalModels);
-      }, (err) => console.log(err));
+      
     }
     if (d.type === 'Factory') {
       let modelName = '';
