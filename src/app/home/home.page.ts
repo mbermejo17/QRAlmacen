@@ -168,7 +168,7 @@ export class HomePage implements OnInit {
     });
   }
 
-  goBack(){
+  goBack() {
     this.models = [];
     this.locationMode = false;
     this.goHome();
@@ -182,22 +182,22 @@ export class HomePage implements OnInit {
       const code = JSON.parse(d.text);
       this.lastLocation = code.Data;
       const data = await this.articleservice.getModelsByLocation(code.Data);
-      
-        // this.articles = data;
-        // this.articlesTotal = data.lenght;
-        this.totalModels = data.articles.length;
-        console.log('============== total =========', this.totalModels);
-        if (this.totalModels === 0) {
-          this.locationMode = false;
-          this.models = [];
-          this.presentToast('No se encuetran articulos');
-          this.goHome();
-        } else {
-          this.models = data.articles;
-        }
 
-        console.log('Total modelos: ', this.totalModels);
-      
+      // this.articles = data;
+      // this.articlesTotal = data.lenght;
+      this.totalModels = data.articles.length;
+      console.log('============== total =========', this.totalModels);
+      if (this.totalModels === 0) {
+        this.locationMode = false;
+        this.models = [];
+        this.presentToast('No se encuetran articulos');
+        this.goHome();
+      } else {
+        this.models = data.articles;
+      }
+
+      console.log('Total modelos: ', this.totalModels);
+
     }
     if (d.type === 'Factory') {
       let modelName = '';
