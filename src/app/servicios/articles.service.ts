@@ -64,10 +64,10 @@ export class ArticlesService {
     console.log(id);
     console.log(url + id);
     const result = await this.http.get<any>(url + id).toPromise();
-    //.map((data: any) => {
-      console.log('Data Articles: ', result);
+    // .map((data: any) => {
+    console.log('Data Articles: ', result);
     //  return data.articles;
-    //});
+    // });
     return result;
   }
 
